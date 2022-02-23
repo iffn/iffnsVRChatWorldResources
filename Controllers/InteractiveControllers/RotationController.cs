@@ -7,9 +7,7 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
 {
     public class RotationController : UdonSharpBehaviour
     {
-
-        [Header("Implementation stuff \n test")]
-        //[Header("- Local position and rotation of Pickup needs to be (0, 0, 0)")]
+        [Header("Note: Local position and rotation of Pickup needs to be (0, 0, 0)")]
         [SerializeField] GameObject[] OwnershipObjects;
         [SerializeField] VRC_Pickup LinkedPickupWithXYOffset;
         [SerializeField] Transform ConverterReference;
@@ -17,35 +15,32 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
         [SerializeField] bool Symetric = true;
         [SerializeField] float SnapAngleDegOffsetFromZero = 0;
 
-        [SerializeField] TMPro.TextMeshProUGUI InfoBox;
+        /*
+        Sync behavior:
+        - If noone is using the controller, the player that uses the positioning pickup declares ownership of the rotation controller and the linked ownership objects
+        - The output value (between 0...1 if non symetric , between -1...1 if symetric) is shared from the owner and sets the displayed rotation angle
+        */
 
         //newLine = backslash n which is interpreted as a new line when showing the code in a text field
-        string newLine = "\n";
+        readonly string newLine = "\n";
 
         bool pickupIsHeld;
-        Vector3 OriginalLocalPickupPosition;
-        Quaternion OriginalLocalPickupRotation;
 
-        float outputValue = 0;
+        [UdonSynced] float outputValue = 0;
         public float GetOutputValue()
         {
             return outputValue;
         }
 
-        void Start()
-        {
-
-        }
-
         void Update()
         {
-            string outputText = "";
-
-            //Set ownership on pickup
+            //Detect pickup by local player and assign ownership
             if (!pickupIsHeld && LinkedPickupWithXYOffset.IsHeld)
             {
                 if (LinkedPickupWithXYOffset.currentPlayer == Networking.LocalPlayer)
                 {
+                    if (!Networking.IsOwner(gameObject)) Networking.SetOwner(player: Networking.LocalPlayer, obj: gameObject);
+
                     if (OwnershipObjects.Length > 0)
                     {
                         for (int i = 0; i < OwnershipObjects.Length; i++)
@@ -58,7 +53,8 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
 
             pickupIsHeld = LinkedPickupWithXYOffset.IsHeld;
 
-            if (pickupIsHeld)
+            //Calculate value if owner, otherwise apply
+            if (pickupIsHeld && Networking.IsOwner(gameObject))
             {
                 ConverterReference.position = LinkedPickupWithXYOffset.transform.position;
 
@@ -82,34 +78,42 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
                 }
 
                 //Set outputValue
-                SetOutputValueFromAngle(angleDeg: currentAngleDeg);
+                outputValue =GetOutputValueFromAngle(angleDeg: currentAngleDeg);
 
                 //Set rotation
                 transform.localRotation = Quaternion.Euler(Vector3.forward * currentAngleDeg);
-
-                outputText += "Converter position = " + ConverterReference.transform.localPosition + newLine;
-                outputText += "currentAngleDeg = " + currentAngleDeg + newLine;
-                outputText += "outputValue = " + outputValue + newLine;
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(Vector3.forward * GetAngleDegFromOutputValue(outputValue));
             }
 
             //Reset pickup position
             LinkedPickupWithXYOffset.transform.localPosition = Vector3.zero;
             LinkedPickupWithXYOffset.transform.localRotation = Quaternion.identity;
-
-            if (InfoBox != null) InfoBox.text = outputText;
         }
 
-        void SetOutputValueFromAngle(float angleDeg)
+        float GetOutputValueFromAngle(float angleDeg)
         {
             if (Symetric)
             {
                 float tempValue = Mathf.InverseLerp(a: -MaxAngleDeg, MaxAngleDeg, angleDeg);
-                outputValue = Mathf.Lerp(a: -1, 1, tempValue);
+                return Mathf.Lerp(a: -1, 1, tempValue);
             }
             else
             {
-                outputValue = Mathf.InverseLerp(a: 0, MaxAngleDeg, angleDeg);
+                return Mathf.InverseLerp(a: 0, MaxAngleDeg, angleDeg);
             }
+        }
+
+        string currentLerpOutput = "";
+
+        float GetAngleDegFromOutputValue(float outputValue)
+        {
+            float returnValue = Mathf.LerpUnclamped(0, MaxAngleDeg, outputValue);
+
+            return returnValue;
+
         }
 
         float CalculateAnlgeDegWithX0Y90(Vector3 targetPosLocal)
@@ -133,6 +137,20 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
             //if (angleDeg > 180) angleDeg -= 360; //Automatically set to -135 and not 225
 
             return angleDeg;
+        }
+
+        public string GetCurrentDebugState()
+        {
+            string returnString = "";
+            returnString += "Rotation controller debug of " + transform.name + ":" + newLine;
+
+            returnString += "Is owner = " + Networking.IsOwner(gameObject) + newLine;
+            returnString += "Is held = " + pickupIsHeld + newLine;
+            returnString += "Converter position = " + ConverterReference.transform.localPosition + newLine;
+            returnString += "currentAngleDeg = " + transform.localRotation.eulerAngles.z + newLine;
+            returnString += "outputValue = " + outputValue + newLine;
+
+            return returnString;
         }
     }
 }
