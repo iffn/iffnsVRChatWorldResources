@@ -27,7 +27,6 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
         Vector3 lastLocalPickupPosition;
 
         [SerializeField] SyncControllerFloatLinear SyncValue;
-        //[UdonSynced(UdonSyncMode.Smooth)] float outputValue = 0;
         public float GetOutputValue()
         {
             return SyncValue.GetValue();

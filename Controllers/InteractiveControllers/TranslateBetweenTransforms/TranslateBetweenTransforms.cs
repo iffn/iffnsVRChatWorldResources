@@ -5,6 +5,7 @@ using VRC.Udon;
 
 namespace iffnsStuff.iffnsVRCStuff
 {
+    [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class TranslateBetweenTransforms : UdonSharpBehaviour
     {
         [SerializeField] Transform MovingTransform;
