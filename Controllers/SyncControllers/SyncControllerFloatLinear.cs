@@ -13,7 +13,7 @@ namespace iffnsStuff.iffnsVRCStuff.SyncControllers
         float lastRecievedValue = 0;
         float savedValue = 0;
         float lastSyncTime = 0;
-        float timeSinceLastSync;
+        float timeSinceLastSync; //Used to check serialization frequency
 
         [SerializeField] float SmoothSyncThreshold = 1;
 
@@ -35,7 +35,7 @@ namespace iffnsStuff.iffnsVRCStuff.SyncControllers
 
         public float GetValue()
         {
-            if (Time.time - lastSyncTime > SmoothSyncThreshold) return syncValue;
+            if (Networking.IsOwner(gameObject) || Time.time - lastSyncTime > SmoothSyncThreshold) return syncValue;
 
             return RemapFloat(
                 inputMin: lastSyncTime,

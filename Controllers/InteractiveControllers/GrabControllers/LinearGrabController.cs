@@ -8,7 +8,6 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
 {
     public class LinearGrabController : UdonSharpBehaviour
     {
-        [Header("Note: Local position and rotation of Pickup needs to be (0, 0, 0)")]
         [SerializeField] GameObject[] OwnershipObjects;
         [SerializeField] VRC_Pickup LinkedPickupWithXYOffset;
         [SerializeField] float MaxOffset = 1;
@@ -21,6 +20,9 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
         - The output value (between 0...1 if non symetric , between -1...1 if symetric) is shared from the owner and sets the displayed offset
         */
 
+        Vector3 originalPickupPosition;
+        Quaternion originalPickupRotation;
+
         bool pickupIsHeld = false;
         Vector3 lastLocalPickupPosition;
 
@@ -31,14 +33,10 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
             return SyncValue.GetValue();
         }
 
-        public override void OnDeserialization()
+        void Start()
         {
-            Debug.Log("Update recieved on linear controller");
-        }
-
-        public override void OnPreSerialization()
-        {
-            Debug.Log("Update to be sent on linear controller");
+            originalPickupPosition = LinkedPickupWithXYOffset.transform.localPosition;
+            originalPickupRotation = LinkedPickupWithXYOffset.transform.localRotation;
         }
 
         void Update()
@@ -102,8 +100,8 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
             }
 
             //Reset pickup position
-            LinkedPickupWithXYOffset.transform.localPosition = Vector3.zero;
-            LinkedPickupWithXYOffset.transform.localRotation = Quaternion.identity;
+            LinkedPickupWithXYOffset.transform.localPosition = originalPickupPosition;
+            LinkedPickupWithXYOffset.transform.localRotation = originalPickupRotation;
         }
 
         float GetOutputValueFromOffset(float offset)

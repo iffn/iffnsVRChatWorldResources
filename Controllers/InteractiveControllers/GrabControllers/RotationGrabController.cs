@@ -8,7 +8,6 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
 {
     public class RotationGrabController : UdonSharpBehaviour
     {
-        [Header("Note: Local position and rotation of Pickup needs to be (0, 0, 0)")]
         [SerializeField] GameObject[] OwnershipObjects;
         [SerializeField] VRC_Pickup LinkedPickupWithXYOffset;
         [SerializeField] float MaxAngleDeg = 45;
@@ -21,8 +20,10 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
         - The output value (between 0...1 if non symetric , between -1...1 if symetric) is shared from the owner and sets the displayed rotation angle
         */
 
+        Vector3 originalPickupPosition;
+        Quaternion originalPickupRotation;
+
         //newLine = backslash n which is interpreted as a new line when showing the code in a text field
-        readonly string newLine = "\n";
         bool pickupIsHeld = false;
         Vector3 lastLocalPickupPosition;
 
@@ -30,6 +31,12 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
         public float GetOutputValue()
         {
             return SyncValue.GetValue();
+        }
+
+        void Start()
+        {
+            originalPickupPosition = LinkedPickupWithXYOffset.transform.localPosition;
+            originalPickupRotation = LinkedPickupWithXYOffset.transform.localRotation;
         }
 
         void Update()
@@ -90,8 +97,8 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
             }
 
             //Reset pickup position
-            LinkedPickupWithXYOffset.transform.localPosition = Vector3.zero;
-            LinkedPickupWithXYOffset.transform.localRotation = Quaternion.identity;
+            LinkedPickupWithXYOffset.transform.localPosition = originalPickupPosition;
+            LinkedPickupWithXYOffset.transform.localRotation = originalPickupRotation;
         }
 
         float GetOutputValueFromAngle(float angleDeg)
@@ -123,20 +130,6 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
             float angleDeg = Mathf.Atan2(y: y, x: x) * Mathf.Rad2Deg;
 
             return angleDeg;
-        }
-
-        public string GetCurrentDebugState()
-        {
-            string returnString = "";
-            returnString += "Rotation controller debug of " + transform.name + ":" + newLine;
-
-            returnString += "Is owner = " + Networking.IsOwner(gameObject) + newLine;
-            returnString += "Is held = " + pickupIsHeld + newLine;
-            returnString += "Last local Pickup position = " + lastLocalPickupPosition + newLine;
-            returnString += "currentAngleDeg = " + transform.localRotation.eulerAngles.z + newLine;
-            returnString += "outputValue = " + SyncValue.GetValue() + newLine;
-
-            return returnString;
         }
     }
 }
