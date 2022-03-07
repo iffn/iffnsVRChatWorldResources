@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 2.5000007, y: -0.3573919, z: 0.05000001}
   m_Children: []
   m_Father: {fileID: 8188416903398605463}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6470693882899498382
 MeshFilter:
@@ -298,7 +298,6 @@ Transform:
   m_LocalScale: {x: 1, y: 0.020000001, z: 1}
   m_Children:
   - {fileID: 8118806536663799968}
-  - {fileID: 5197277913877060811}
   - {fileID: 1744519904564712906}
   m_Father: {fileID: 5127984887340832697}
   m_RootOrder: 0
@@ -362,36 +361,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1500341873916720767}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5948941130074822323
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5197277913877060811}
-  m_Layer: 13
-  m_Name: Handle holder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5197277913877060811
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5948941130074822323}
-  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.87000084, y: -0.000023841856, z: 0}
-  m_LocalScale: {x: 4, y: 0.09189657, z: 0.08}
-  m_Children: []
-  m_Father: {fileID: 8188416903398605463}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7370980336438301014
