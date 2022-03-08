@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: RotationGrabController
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 49d73ca0f2274964bb999a7ef305dce8,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 53076c2d1fe2c3441a4aa1033420b114,
     type: 2}
   udonAssembly: 
   assemblyError: 
