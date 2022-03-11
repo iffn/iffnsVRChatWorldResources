@@ -24,7 +24,7 @@ namespace iffnsStuff.iffnsVRCStuff.DebugOutput
 
             if (CheckActivationDistance)
             {
-                if ((Networking.LocalPlayer.GetPosition() - transform.position).magnitude > ActivationDistance) return false;
+                if ((Networking.LocalPlayer.GetPosition() - transform.position).magnitude > ActivationDistance) return false; //2 Errors happen when you leave the world: Ignore
             }
 
             return true;
