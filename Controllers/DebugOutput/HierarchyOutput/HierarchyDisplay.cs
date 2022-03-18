@@ -10,6 +10,7 @@ namespace iffnsStuff.iffnsVRCStuff.DebugOutput
         [SerializeField] TMPro.TextMeshProUGUI HierarchyOutput;
         [SerializeField] Transform ParentOfHierarchyOutput;
         [SerializeField] string[] OnlyOutputIfNameStartsWith;
+        [SerializeField] bool ShowLocalLocation = true;
 
         //newLine = backslash n which is interpreted as a new line when showing the code in a text field
         string newLine = "\n";
@@ -27,7 +28,8 @@ namespace iffnsStuff.iffnsVRCStuff.DebugOutput
 
             if (OnlyOutputIfNameStartsWith.Length == 0)
             {
-                returnString += startString + parent.name + newLine;
+                if (ShowLocalLocation) returnString += startString + parent.name + " " + parent.localPosition + " " + parent.localRotation.eulerAngles + " " + parent.localScale + newLine;
+                else returnString += startString + parent.name + newLine;
             }
             else
             {
@@ -35,7 +37,8 @@ namespace iffnsStuff.iffnsVRCStuff.DebugOutput
                 {
                     if (parent.name.StartsWith(OnlyOutputIfNameStartsWith[i]))
                     {
-                        returnString += startString + parent.name + newLine;
+                        if(ShowLocalLocation) returnString += startString + parent.name + " " + parent.localPosition + " " + parent.localRotation.eulerAngles + " " + parent.localScale + newLine;
+                        else returnString += startString + parent.name + newLine;
                         break;
                     }
                 }
