@@ -22,13 +22,15 @@ namespace iffnsStuff.iffnsVRCStuff.DebugOutput
 
             if (Time.time < nextOutputTime) return false;
 
+            #if !UNITY_EDITOR
             if (CheckActivationDistance)
             {
                 if ((Networking.LocalPlayer.GetPosition() - transform.position).magnitude > ActivationDistance) return false; //2 Errors happen when you leave the world: Ignore
             }
-
+            #endif
             return true;
         }
+
 
         string displayName = "";
         string currentState = "";
