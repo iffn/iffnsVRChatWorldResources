@@ -13,6 +13,7 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
         [SerializeField] float MaxAngleDeg = 45;
         [SerializeField] bool Symetric = true;
         [SerializeField] float SnapAngleDegOffsetFromZero = 0;
+        [SerializeField] float DefaultValue = 0;
 
         /*
         Sync behavior:
@@ -37,6 +38,7 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
         {
             originalPickupPosition = LinkedPickupWithXYOffset.transform.localPosition;
             originalPickupRotation = LinkedPickupWithXYOffset.transform.localRotation;
+            if(Networking.IsOwner(SyncValue.gameObject)) SyncValue.SetValue(DefaultValue);
         }
 
         void Update()
@@ -83,6 +85,7 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
                         currentAngleDeg = Mathf.Clamp(value: currentAngleDeg, min: -0, max: MaxAngleDeg);
                     }
                 }
+
 
                 //Set outputValue
                 //outputValue = GetOutputValueFromAngle(angleDeg: currentAngleDeg);
