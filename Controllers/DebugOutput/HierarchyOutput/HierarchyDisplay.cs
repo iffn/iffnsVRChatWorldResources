@@ -11,15 +11,21 @@ namespace iffnsStuff.iffnsVRCStuff.DebugOutput
         [SerializeField] Transform ParentOfHierarchyOutput;
         [SerializeField] string[] OnlyOutputIfNameStartsWith;
         [SerializeField] bool ShowLocalLocation = true;
+        [SerializeField] float TimeBetweenUpdates = 1;
 
         //newLine = backslash n which is interpreted as a new line when showing the code in a text field
         string newLine = "\n";
 
+        float lastUpdateTime = 0;
+
         void Update()
         {
-            HierarchyOutput.text = "Output at " + Time.time + newLine + GetHierarchyOutput(ParentOfHierarchyOutput, "");
+            if(Time.time - lastUpdateTime > TimeBetweenUpdates)
+            {
+                HierarchyOutput.text = "Output at " + Time.time + newLine + GetHierarchyOutput(ParentOfHierarchyOutput, "");
+                lastUpdateTime = Time.time;
+            }
         }
-
 
         [RecursiveMethod]
         string GetHierarchyOutput(Transform parent, string startString)
