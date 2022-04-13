@@ -28,6 +28,12 @@ namespace iffnsStuff.iffnsVRCStuff.BugFixing
             return;
             #endif
 
+            if (LocalPlayer == null)
+            {
+                Debug.LogWarning("Error with NanLandFixer: FixedUpdate was run before Start of this object -> Ignore if once");
+                return;
+            }
+
             Vector3 velocity = LocalPlayer.GetVelocity();
             float velocityMagnitude = velocity.magnitude;
 
@@ -48,7 +54,7 @@ namespace iffnsStuff.iffnsVRCStuff.BugFixing
             else
             {
                 lastPosition2 = lastPosition;
-                lastPosition = Networking.LocalPlayer.GetPosition();
+                lastPosition = LocalPlayer.GetPosition();
             }
 
             lastPlayerVelocity = velocityMagnitude;
