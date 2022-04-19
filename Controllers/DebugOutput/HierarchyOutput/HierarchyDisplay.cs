@@ -14,7 +14,7 @@ namespace iffnsStuff.iffnsVRCStuff.DebugOutput
         [SerializeField] float TimeBetweenUpdates = 1;
 
         //newLine = backslash n which is interpreted as a new line when showing the code in a text field
-        string newLine = "\n";
+        readonly string newLine = "\n";
 
         float lastUpdateTime = 0;
 

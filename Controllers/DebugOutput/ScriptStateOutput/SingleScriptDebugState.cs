@@ -12,7 +12,7 @@ namespace iffnsStuff.iffnsVRCStuff.DebugOutput
         public bool CheckActivationDistance = true;
         public float ActivationDistance = 5;
 
-        public const string newLine = "\n";
+        public readonly string newLine = "\n";
 
         float nextOutputTime = 0;
 

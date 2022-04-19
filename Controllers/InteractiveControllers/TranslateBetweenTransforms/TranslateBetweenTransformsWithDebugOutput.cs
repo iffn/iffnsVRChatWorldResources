@@ -38,7 +38,7 @@ namespace iffnsStuff.iffnsVRCStuff.InteractiveControllers
         bool rotate;
         bool scale;
 
-        string newLine = "\n";
+        readonly string newLine = "\n";
 
         void Start()
         {
