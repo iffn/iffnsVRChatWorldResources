@@ -69,8 +69,8 @@ namespace iffnsStuff.iffnsVRCStuff.BugFixing
         {
             if (player != Networking.LocalPlayer) return;
         }
-        
+
     }
-    
-    
+
+
 }
