@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: LocalEnableDisableButton
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: ab6320d8a70f17c44aea3938d353f962,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: e62bdcd351f257f46b2a9098e5bfb7ef,
     type: 2}
   udonAssembly: 
   assemblyError: 
