@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: NanLandFixerForPlayer
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: cc78f94057a49a6418269d6daac21f8a,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: cdc5054d77e0ea349b2cfd67ad69d154,
     type: 2}
   udonAssembly: 
   assemblyError: 

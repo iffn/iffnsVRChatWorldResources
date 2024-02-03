@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: HierarchyDisplay
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: c543d1663d79a1a47afa0563a9e3dc6c,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 38bf543f93cd93f4499c85d4d6a68f54,
     type: 2}
   udonAssembly: 
   assemblyError: 
